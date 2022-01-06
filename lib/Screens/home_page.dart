@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stack/Constants/app_color.dart';
 import 'package:stack/Constants/app_const.dart';
 import 'package:stack/Constants/app_fonts.dart';
 import 'package:stack/Constants/app_images.dart';
 import 'package:stack/Constants/screen_size.dart';
+import 'package:stack/Controller/switch_controller.dart';
 import 'package:stack/Screens/bottom_sheet.dart';
 import 'package:stack/widget/blur_container.dart';
 import 'package:stack/widget/home_page_tiles.dart';
@@ -12,7 +14,9 @@ import 'package:stack/widget/home_screen_widget.dart';
 import 'package:stack/widget/music_player.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  SwitchController switchController = Get.put(SwitchController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +58,11 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: Row(
-                      children: const [
+                      children: [
                         Expanded(
                           child: TemperatureTile(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         Expanded(
@@ -80,7 +84,7 @@ class HomePage extends StatelessWidget {
                           const SizedBox(
                             width: 15,
                           ),
-                          const Expanded(
+                          Expanded(
                             child: SmartTV(),
                           )
                         ],

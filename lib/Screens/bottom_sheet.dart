@@ -1,18 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stack/Constants/app_color.dart';
 import 'package:stack/Constants/app_const.dart';
 import 'package:stack/Constants/app_fonts.dart';
 import 'package:stack/Constants/app_images.dart';
 import 'package:stack/Constants/screen_size.dart';
+import 'package:stack/Controller/switch_controller.dart';
 import 'package:stack/Screens/temperature_widget.dart';
 import 'package:stack/widget/blur_container.dart';
 import 'package:stack/widget/celcius.dart';
 
 class AppBottomSheet extends StatelessWidget {
-  const AppBottomSheet({
+  AppBottomSheet({
     Key? key,
   }) : super(key: key);
+
+  SwitchController switchController = Get.find<SwitchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +65,15 @@ class AppBottomSheet extends StatelessWidget {
                         ),
                       ],
                     ),
-                    CupertinoSwitch(
-                      value: true,
-                      activeColor: AppColor.orange,
-                      trackColor: AppColor.lightGrey.withOpacity(.3),
-                      onChanged: (v) {},
+                    Obx(
+                      () => CupertinoSwitch(
+                        value: switchController.bottomSheetSwitch.value,
+                        activeColor: AppColor.orange,
+                        trackColor: AppColor.grey.withOpacity(.5),
+                        onChanged: (v) {
+                          switchController.bottomSheetSwitch.value = v;
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -217,97 +225,15 @@ class AppBottomSheet extends StatelessWidget {
                       Expanded(
                           flex: 3,
                           child: Row(
-                            children: [
+                            children: const [
                               Expanded(
-                                child: BlurContainer(
-                                  color: AppColor.grey.withOpacity(.15),
-                                  child: Padding(
-                                    padding: AppConst.smallBoxPadding(context),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Fan',
-                                              style: pulp(
-                                                color: AppColor.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: height(context) / 45,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Off',
-                                              style: pulp(
-                                                  fontSize:
-                                                      height(context) / 40,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Opacity(
-                                          opacity: .3,
-                                          child: Image.asset(
-                                            AppImages.fan,
-                                            height: height(context) * .03,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                child: FanOff(),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
                               Expanded(
-                                child: BlurContainer(
-                                  color: AppColor.grey.withOpacity(.15),
-                                  child: Padding(
-                                    padding: AppConst.smallBoxPadding(context),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Cooler',
-                                              style: pulp(
-                                                color: AppColor.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: height(context) / 45,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Off',
-                                              style: pulp(
-                                                  fontSize:
-                                                      height(context) / 40,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        Opacity(
-                                          opacity: .3,
-                                          child: Image.asset(
-                                            AppImages.snow,
-                                            height: height(context) * .04,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                child: Cooler(),
                               ),
                             ],
                           )),
@@ -321,6 +247,102 @@ class AppBottomSheet extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class Cooler extends StatelessWidget {
+  const Cooler({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlurContainer(
+      color: AppColor.grey.withOpacity(.15),
+      child: Padding(
+        padding: AppConst.smallBoxPadding(context),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Cooler',
+                  style: pulp(
+                    color: AppColor.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: height(context) / 45,
+                  ),
+                ),
+                Text(
+                  'Off',
+                  style: pulp(
+                      fontSize: height(context) / 40,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Opacity(
+              opacity: .3,
+              child: Image.asset(
+                AppImages.snow,
+                height: height(context) * .04,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FanOff extends StatelessWidget {
+  const FanOff({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlurContainer(
+      color: AppColor.grey.withOpacity(.15),
+      child: Padding(
+        padding: AppConst.smallBoxPadding(context),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Fan',
+                  style: pulp(
+                    color: AppColor.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: height(context) / 45,
+                  ),
+                ),
+                Text(
+                  'Off',
+                  style: pulp(
+                      fontSize: height(context) / 40,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            Opacity(
+              opacity: .3,
+              child: Image.asset(
+                AppImages.fan,
+                height: height(context) * .03,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

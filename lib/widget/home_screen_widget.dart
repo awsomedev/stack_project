@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stack/Constants/app_color.dart';
 import 'package:stack/Constants/app_const.dart';
 import 'package:stack/Constants/app_fonts.dart';
 import 'package:stack/Constants/screen_size.dart';
+import 'package:stack/Controller/switch_controller.dart';
 import 'package:stack/Screens/bottom_sheet.dart';
 import 'package:stack/widget/blur_container.dart';
 
@@ -45,7 +47,7 @@ class TopSection extends StatelessWidget {
             showBottomSheet(
               context: context,
               backgroundColor: Colors.black.withOpacity(.5),
-              builder: (context) => const AppBottomSheet(),
+              builder: (context) => AppBottomSheet(),
             );
           },
           child: BlurContainer(
@@ -64,9 +66,10 @@ class TopSection extends StatelessWidget {
 }
 
 class SmartTV extends StatelessWidget {
-  const SmartTV({
+  SmartTV({
     Key? key,
   }) : super(key: key);
+  final SwitchController switchController = Get.find<SwitchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +113,15 @@ class SmartTV extends StatelessWidget {
                 ),
               ],
             ),
-            CupertinoSwitch(
-              value: true,
-              activeColor: AppColor.orange,
-              trackColor: AppColor.lightGrey.withOpacity(.3),
-              onChanged: (v) {},
+            Obx(
+              () => CupertinoSwitch(
+                value: switchController.smartSwitch.value,
+                activeColor: AppColor.orange,
+                trackColor: AppColor.lightGrey.withOpacity(.3),
+                onChanged: (v) {
+                  switchController.smartSwitch.value = v;
+                },
+              ),
             )
           ],
         ),

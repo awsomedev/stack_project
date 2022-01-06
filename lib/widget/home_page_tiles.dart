@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stack/Constants/app_color.dart';
 import 'package:stack/Constants/app_const.dart';
 import 'package:stack/Constants/app_fonts.dart';
 import 'package:stack/Constants/screen_size.dart';
+import 'package:stack/Controller/switch_controller.dart';
 import 'package:stack/widget/blur_container.dart';
 import 'package:stack/widget/celcius.dart';
 import 'package:stack/widget/home_screen_widget.dart';
@@ -140,9 +142,11 @@ class ExlictricityTile extends StatelessWidget {
 }
 
 class PlugTile extends StatelessWidget {
-  const PlugTile({
+  PlugTile({
     Key? key,
   }) : super(key: key);
+
+  final SwitchController switchController = Get.find<SwitchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -197,11 +201,15 @@ class PlugTile extends StatelessWidget {
                 ],
               ),
             ),
-            CupertinoSwitch(
-              value: false,
-              activeColor: AppColor.orange,
-              trackColor: AppColor.lightGrey.withOpacity(.3),
-              onChanged: (v) {},
+            Obx(
+              () => CupertinoSwitch(
+                value: switchController.plugSwitch.value,
+                activeColor: AppColor.orange,
+                trackColor: AppColor.lightGrey.withOpacity(.3),
+                onChanged: (v) {
+                  switchController.plugSwitch.value = v;
+                },
+              ),
             )
           ],
         ),
@@ -211,9 +219,11 @@ class PlugTile extends StatelessWidget {
 }
 
 class TemperatureTile extends StatelessWidget {
-  const TemperatureTile({
+  TemperatureTile({
     Key? key,
   }) : super(key: key);
+
+  final SwitchController switchController = Get.find<SwitchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -237,11 +247,15 @@ class TemperatureTile extends StatelessWidget {
               size: height(context) / 15,
               temp: '23',
             ),
-            CupertinoSwitch(
-              value: true,
-              activeColor: AppColor.orange,
-              trackColor: AppColor.lightGrey.withOpacity(.3),
-              onChanged: (v) {},
+            Obx(
+              () => CupertinoSwitch(
+                value: switchController.temperatureSwitch.value,
+                activeColor: AppColor.orange,
+                trackColor: AppColor.grey.withOpacity(.3),
+                onChanged: (v) {
+                  switchController.temperatureSwitch.value = v;
+                },
+              ),
             )
           ],
         ),
