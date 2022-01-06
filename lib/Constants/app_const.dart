@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stack/Constants/screen_size.dart';
 
 class AppConst {
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(horizontal: 25);
-  static const EdgeInsets boxPadding =
-      EdgeInsets.symmetric(horizontal: 15, vertical: 20);
+  static EdgeInsets boxPadding(context) => EdgeInsets.symmetric(
+      horizontal: height(context) / 55, vertical: height(context) / 55);
+  static EdgeInsets smallBoxPadding(context) => EdgeInsets.symmetric(
+      horizontal: height(context) / 55, vertical: height(context) / 60);
 }
